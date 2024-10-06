@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block body %}
+{% load cart %}
+
+<!-- Order Content -->
+<div class="container mt-4 mb-4">
+    <h3>Your Orders</h3>
+    <hr>
+    {% if orders %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">S.No.</th>
+          <th scope="col">Image</th>
+          <th scope="col">Product</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><img style="height: 80px;" src="{{ order.product.image.url }}"></td>
+          <td>{{ order.product.name }}</td>
+          <td>₹{{ order.price }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>₹{{ order.quantity|order_total:order.price }}</td>
+          {% if order.completed %}
+          <td><small class="badge" style="background: #008000">Completed</small></td>
+          {% else %}
+          <td><small class="badge" style="background: #ffca33">Pending</small></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <h6 class="d-flex justify-content-center">No any Order.</h6>
+    {% endif %}
+  </div>
+
+  {% endblock body %}
